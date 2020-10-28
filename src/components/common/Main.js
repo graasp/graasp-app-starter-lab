@@ -10,7 +10,7 @@ import { CssBaseline, Fab } from '@material-ui/core';
 import { toggleSideMenu } from '../../actions';
 import Header from './Header';
 import SideMenu from './SideMenu';
-import { DRAWER_WIDTH } from '../../config/constants';
+import { DEFAULT_HEADER_VISIBLE, DRAWER_WIDTH } from '../../config/constants';
 
 const styles = (theme) => ({
   root: {
@@ -73,7 +73,7 @@ class Main extends Component {
   };
 
   static defaultProps = {
-    headerVisible: true,
+    headerVisible: DEFAULT_HEADER_VISIBLE,
   };
 
   handleToggleSideMenu = (open) => () => {

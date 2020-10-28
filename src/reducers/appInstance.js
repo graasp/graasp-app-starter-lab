@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { DEFAULT_HEADER_VISIBLE } from '../config/constants';
 import {
   GET_APP_INSTANCE_FAILED,
   GET_APP_INSTANCE_SUCCEEDED,
@@ -10,7 +11,7 @@ import {
 import { showErrorToast } from '../utils/toasts';
 
 const DEFAULT_SETTINGS = {
-  headerVisible: false,
+  headerVisible: DEFAULT_HEADER_VISIBLE,
 };
 
 const INITIAL_STATE = {
