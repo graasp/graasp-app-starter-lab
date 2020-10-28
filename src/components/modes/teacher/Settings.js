@@ -3,22 +3,17 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
+import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
 import { connect } from 'react-redux';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withTranslation } from 'react-i18next';
-import { closeSettings, patchAppInstance } from '../../../actions';
+import { toggleSettings, patchAppInstance } from '../../../actions';
 import Loader from '../../common/Loader';
+import LanguageSelect from './LanguageSelect';
 
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
+const modalTopPercent = 50;
+const modalLeftPercent = 50;
 
 const styles = (theme) => ({
   paper: {
@@ -28,6 +23,9 @@ const styles = (theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(4),
     outline: 'none',
+    top: `${modalTopPercent}%`,
+    left: `${modalLeftPercent}%`,
+    transform: `translate(-${modalTopPercent}%, -${modalLeftPercent}%)`,
   },
   button: {
     margin: theme.spacing(),
@@ -42,15 +40,20 @@ class Settings extends Component {
     open: PropTypes.bool.isRequired,
     activity: PropTypes.bool.isRequired,
     settings: PropTypes.shape({
-      headerVisible: PropTypes.bool.isRequired,
-      studentsOnly: PropTypes.bool.isRequired,
-    }).isRequired,
+      headerVisible: PropTypes.bool,
+    }),
     t: PropTypes.func.isRequired,
-    dispatchCloseSettings: PropTypes.func.isRequired,
+    dispatchToggleSettings: PropTypes.func.isRequired,
     dispatchPatchAppInstance: PropTypes.func.isRequired,
     i18n: PropTypes.shape({
       defaultNS: PropTypes.string,
     }).isRequired,
+  };
+
+  static defaultProps = {
+    settings: {
+      headerVisible: true,
+    },
   };
 
   saveSettings = (settingsToChange) => {
@@ -75,8 +78,8 @@ class Settings extends Component {
   };
 
   handleClose = () => {
-    const { dispatchCloseSettings } = this.props;
-    dispatchCloseSettings();
+    const { dispatchToggleSettings } = this.props;
+    dispatchToggleSettings(false);
   };
 
   renderModalContent() {
@@ -97,10 +100,14 @@ class Settings extends Component {
     );
 
     return (
-      <FormControlLabel
-        control={switchControl}
-        label={t('Show Header to Students')}
-      />
+      <Grid container>
+        <Grid item xs={12}>
+          <FormControlLabel control={switchControl} label={t('Show Header')} />
+        </Grid>
+        <Grid item xs={12}>
+          <LanguageSelect />
+        </Grid>
+      </Grid>
     );
   }
 
@@ -109,16 +116,9 @@ class Settings extends Component {
 
     return (
       <div>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={open}
-          onClose={this.handleClose}
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="h5" id="modal-title">
-              {t('Settings')}
-            </Typography>
+        <Modal open={open} onClose={this.handleClose}>
+          <div className={classes.paper}>
+            <Typography variant="h5">{t('Settings')}</Typography>
             {this.renderModalContent()}
           </div>
         </Modal>
@@ -136,7 +136,7 @@ const mapStateToProps = ({ layout, appInstance }) => {
 };
 
 const mapDispatchToProps = {
-  dispatchCloseSettings: closeSettings,
+  dispatchToggleSettings: toggleSettings,
   dispatchPatchAppInstance: patchAppInstance,
 };
 

@@ -1,1 +1,1 @@
-# Graasp App: starter-lab
+# Graasp App Starter Lab

@@ -17,9 +17,9 @@ class StudentMode extends Component {
   };
 
   static defaultProps = {
-    view: 'normal',
+    view: DEFAULT_VIEW,
     appInstanceId: null,
-    activity: 0,
+    activity: false,
     userId: null,
   };
 
@@ -66,7 +66,7 @@ const mapStateToProps = ({ context, appInstanceResources }) => {
   return {
     userId,
     appInstanceId,
-    activity: appInstanceResources.activity.length,
+    activity: Boolean(appInstanceResources.activity.length),
   };
 };
 

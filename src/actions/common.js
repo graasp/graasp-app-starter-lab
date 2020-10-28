@@ -117,4 +117,19 @@ const receiveMessage = (dispatch) => (event) => {
   }
 };
 
-export { flag, isErrorResponse, getApiContext, postMessage, receiveMessage };
+const getSettings = (getState) => {
+  const { appInstance } = getState();
+  if (appInstance && appInstance.settings) {
+    return appInstance.settings;
+  }
+  return {};
+};
+
+export {
+  flag,
+  isErrorResponse,
+  getApiContext,
+  postMessage,
+  receiveMessage,
+  getSettings,
+};

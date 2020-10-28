@@ -4,11 +4,11 @@ import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import StudentMode from './modes/student/StudentMode';
 import { getContext, getAppInstance } from '../actions';
-import { DEFAULT_LANG, DEFAULT_MODE } from '../config/settings';
+import { DEFAULT_LANG, DEFAULT_MODE, MODES } from '../config/settings';
 import { DEFAULT_VIEW } from '../config/views';
 import TeacherMode from './modes/teacher/TeacherMode';
-import Header from './layout/Header';
 import Loader from './common/Loader';
+import ProgressScreen from './common/ProgressScreen';
 
 export class App extends Component {
   static propTypes = {
@@ -22,9 +22,9 @@ export class App extends Component {
     lang: PropTypes.string,
     mode: PropTypes.string,
     view: PropTypes.string,
-    headerVisible: PropTypes.bool.isRequired,
     ready: PropTypes.bool.isRequired,
     standalone: PropTypes.bool.isRequired,
+    loading: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -32,6 +32,7 @@ export class App extends Component {
     mode: DEFAULT_MODE,
     view: DEFAULT_VIEW,
     appInstanceId: null,
+    loading: true,
   };
 
   constructor(props) {
@@ -66,7 +67,11 @@ export class App extends Component {
   };
 
   render() {
-    const { mode, view, headerVisible, ready, standalone } = this.props;
+    const { mode, view, ready, standalone, loading } = this.props;
+
+    if (loading) {
+      return <ProgressScreen />;
+    }
 
     if (!standalone && !ready) {
       return <Loader />;
@@ -74,40 +79,30 @@ export class App extends Component {
 
     switch (mode) {
       // show teacher view when in producer (educator) mode
-      case 'teacher':
-      case 'producer':
-      case 'educator':
-      case 'admin':
-        return (
-          <>
-            <Header />
-            <TeacherMode view={view} />
-          </>
-        );
+      case MODES.TEACHER:
+      case MODES.PRODUCER:
+      case MODES.EDUCATOR:
+      case MODES.ADMIN:
+        return <TeacherMode view={view} />;
 
       // by default go with the consumer (learner) mode
-      case 'student':
-      case 'consumer':
-      case 'learner':
+      case MODES.STUDENT:
+      case MODES.CONSUMER:
+      case MODES.LEARNER:
       default:
-        return (
-          <>
-            {headerVisible || standalone ? <Header /> : null}
-            <StudentMode />
-          </>
-        );
+        return <StudentMode />;
     }
   }
 }
 
-const mapStateToProps = ({ context, appInstance }) => ({
-  headerVisible: appInstance.content.settings.headerVisible,
+const mapStateToProps = ({ context, appInstance, layout }) => ({
   lang: context.lang,
   mode: context.mode,
   view: context.view,
   appInstanceId: context.appInstanceId,
   ready: appInstance.ready,
   standalone: context.standalone,
+  loading: layout.showLoader,
 });
 
 const mapDispatchToProps = {

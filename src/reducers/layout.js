@@ -1,28 +1,32 @@
-import { OPEN_SETTINGS, CLOSE_SETTINGS } from '../types';
+import { TOGGLE_SETTINGS, TOGGLE_LOADER, TOGGLE_SIDE_MENU } from '../types';
 
 const INITIAL_STATE = {
   settings: {
     open: false,
   },
+  showLoader: true,
+  showSideMenu: true,
 };
 
-export default (state = INITIAL_STATE, { type }) => {
+export default (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
-    case OPEN_SETTINGS:
+    case TOGGLE_SETTINGS:
       return {
         ...state,
         settings: {
           ...state.settings,
-          open: true,
+          open: payload,
         },
       };
-    case CLOSE_SETTINGS:
+    case TOGGLE_LOADER:
       return {
         ...state,
-        settings: {
-          ...state.settings,
-          open: false,
-        },
+        showLoader: payload,
+      };
+    case TOGGLE_SIDE_MENU:
+      return {
+        ...state,
+        showSideMenu: payload,
       };
     default:
       return state;

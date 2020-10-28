@@ -16,8 +16,23 @@ try {
 export const DEFAULT_API_HOST = defaultApiHost;
 
 // we haven't decided what to call the teacher mode
-export const TEACHER_MODES = ['teacher', 'producer', 'educator', 'admin'];
-export const STUDENT_MODES = ['student', 'consumer', 'learner'];
+
+export const MODES = {
+  TEACHER: 'teacher',
+  STUDENT: 'student',
+  PRODUCER: 'producer',
+  EDUCATOR: 'educator',
+  ADMIN: 'admin',
+  CONSUMER: 'consumer',
+  LEARNER: 'learner',
+};
+export const TEACHER_MODES = [
+  MODES.TEACHER,
+  MODES.PRODUCER,
+  MODES.EDUCATOR,
+  MODES.ADMIN,
+];
+export const STUDENT_MODES = [MODES.STUDENT, MODES.CONSUMER, MODES.LEARNER];
 
 export const DEFAULT_VISIBILITY = 'private';
 export const PUBLIC_VISIBILITY = 'public';
