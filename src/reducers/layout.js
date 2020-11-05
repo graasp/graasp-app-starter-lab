@@ -1,4 +1,8 @@
-import { TOGGLE_SETTINGS, TOGGLE_LOADER, TOGGLE_SIDE_MENU } from '../types';
+import {
+  TOGGLE_SETTINGS,
+  TOGGLE_LOADING_SCREEN,
+  TOGGLE_SIDE_MENU,
+} from '../types';
 
 const INITIAL_STATE = {
   settings: {
@@ -18,7 +22,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
           open: payload,
         },
       };
-    case TOGGLE_LOADER:
+    case TOGGLE_LOADING_SCREEN:
       return {
         ...state,
         showLoader: payload,

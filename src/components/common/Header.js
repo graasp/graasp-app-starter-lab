@@ -12,6 +12,7 @@ import { withTranslation } from 'react-i18next';
 import { ReactComponent as Logo } from '../../resources/logo.svg';
 import { toggleSideMenu } from '../../actions';
 import { DRAWER_WIDTH, LOGO_SIZE } from '../../config/constants';
+import { addQueryParamsToUrl } from '../../utils/url';
 
 const styles = (theme) => ({
   grow: {
@@ -41,6 +42,9 @@ const styles = (theme) => ({
   hide: {
     display: 'none',
   },
+  link: {
+    color: 'white',
+  },
 });
 
 class Header extends Component {
@@ -53,14 +57,54 @@ class Header extends Component {
       appBarShift: PropTypes.string.isRequired,
       menuButton: PropTypes.string.isRequired,
       hide: PropTypes.string.isRequired,
+      link: PropTypes.string.isRequired,
     }).isRequired,
     dispatchToggleSideMenu: PropTypes.func.isRequired,
     showSideMenu: PropTypes.bool.isRequired,
+    appInstanceId: PropTypes.string,
+    spaceId: PropTypes.string,
+  };
+
+  static defaultProps = {
+    appInstanceId: null,
+    spaceId: null,
   };
 
   handleToggleSideMenu = (open) => () => {
     const { dispatchToggleSideMenu } = this.props;
     dispatchToggleSideMenu(open);
+  };
+
+  renderAppInstanceLink = () => {
+    const { appInstanceId, t, classes } = this.props;
+    if (!appInstanceId) {
+      return (
+        <a
+          href={addQueryParamsToUrl({
+            appInstanceId: '6156e70ab253020033364411',
+          })}
+          className={classes.link}
+        >
+          {t('Use Sample App Instance')}
+        </a>
+      );
+    }
+    return <div />;
+  };
+
+  renderSpaceLink = () => {
+    const { spaceId, t, classes } = this.props;
+    if (!spaceId) {
+      return (
+        <a
+          href={addQueryParamsToUrl({ spaceId: '5b56e70ab253020033364411' })}
+          className={classes.link}
+        >
+          {t('Use Sample Space')}
+        </a>
+      );
+    }
+    return <div />;
   };
 
   render() {
@@ -78,6 +122,9 @@ class Header extends Component {
             {t('Graasp App Starter Lab')}
           </Typography>
 
+          {this.renderAppInstanceLink()}
+          {this.renderSpaceLink()}
+
           {!showSideMenu && (
             <IconButton
               color="inherit"
@@ -94,8 +141,10 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ layout }) => ({
+const mapStateToProps = ({ layout, context }) => ({
   showSideMenu: layout.showSideMenu,
+  appInstanceId: context.appInstanceId,
+  spaceId: context.spaceId,
 });
 
 const mapDispatchToProps = {

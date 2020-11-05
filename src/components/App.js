@@ -8,7 +8,7 @@ import { DEFAULT_LANG, DEFAULT_MODE, MODES } from '../config/settings';
 import { DEFAULT_VIEW } from '../config/views';
 import TeacherMode from './modes/teacher/TeacherMode';
 import Loader from './common/Loader';
-import ProgressScreen from './common/ProgressScreen';
+import ProgressScreen from './common/LoadingScreen';
 
 export class App extends Component {
   static propTypes = {

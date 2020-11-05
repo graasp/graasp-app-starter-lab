@@ -35,7 +35,7 @@ const styles = (theme) => ({
   },
 });
 
-class LoadingScreen extends Component {
+class ProgressScreen extends Component {
   static propTypes = {
     dispatchToggleLoader: PropTypes.func.isRequired,
     classes: PropTypes.shape({
@@ -65,13 +65,13 @@ class LoadingScreen extends Component {
     // show loading screen
     setTimeout(() => {
       dispatchToggleLoader(false);
-    }, LoadingScreen.loadingTime);
+    }, ProgressScreen.loadingTime);
 
     this.loading = setInterval(() => {
       this.setState((state) => ({
-        progress: state.progress + LoadingScreen.progressStepSize,
+        progress: state.progress + ProgressScreen.progressStepSize,
       }));
-    }, LoadingScreen.loadingInterval);
+    }, ProgressScreen.loadingInterval);
   }
 
   componentDidUpdate() {
@@ -102,7 +102,7 @@ const mapDispatchToProps = {
   dispatchToggleLoader: toggleLoadingScreen,
 };
 
-const ConnectedApp = connect(null, mapDispatchToProps)(LoadingScreen);
+const ConnectedApp = connect(null, mapDispatchToProps)(ProgressScreen);
 
 const StyledComponent = withStyles(styles, { withTheme: true })(ConnectedApp);
 

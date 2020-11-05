@@ -3,14 +3,17 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import MenuIcon from '@material-ui/icons/Menu';
+import TuneIcon from '@material-ui/icons/Tune';
 import { withStyles } from '@material-ui/core/styles';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { CssBaseline, Fab } from '@material-ui/core';
 import { toggleSideMenu } from '../../actions';
 import Header from './Header';
 import SideMenu from './SideMenu';
-import { DEFAULT_HEADER_VISIBLE, DRAWER_WIDTH } from '../../config/constants';
+import {
+  DEFAULT_HEADER_VISIBLE,
+  DRAWER_WIDTH,
+  MAXIMUM_Z_INDEX,
+} from '../../config/constants';
 
 const styles = (theme) => ({
   root: {
@@ -46,10 +49,10 @@ const styles = (theme) => ({
     justifyContent: 'flex-end',
   },
   fab: {
-    left: theme.spacing(2),
+    right: theme.spacing(2),
     top: theme.spacing(2),
     position: 'absolute',
-    zIndex: 999999,
+    zIndex: MAXIMUM_Z_INDEX,
   },
 });
 
@@ -83,21 +86,22 @@ class Main extends Component {
 
   render() {
     const { classes, showSideMenu, headerVisible, children, t } = this.props;
+
+    const fab = !showSideMenu && (
+      <Fab
+        color="primary"
+        aria-label={t('Open Drawer')}
+        onClick={this.handleToggleSideMenu(!showSideMenu)}
+        className={classes.fab}
+      >
+        <TuneIcon />
+      </Fab>
+    );
+
     return (
       <div className={classes.root}>
         <CssBaseline />
-        {headerVisible ? (
-          <Header />
-        ) : (
-          <Fab
-            color="primary"
-            aria-label={t('Open Drawer')}
-            onClick={this.handleToggleSideMenu(!showSideMenu)}
-            className={classes.fab}
-          >
-            {showSideMenu ? <MenuIcon /> : <ChevronRightIcon />}
-          </Fab>
-        )}
+        {headerVisible ? <Header /> : fab}
         <SideMenu />
 
         <main

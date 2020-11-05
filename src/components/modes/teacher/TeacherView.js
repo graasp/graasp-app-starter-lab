@@ -11,6 +11,7 @@ import Settings from './Settings';
 import Main from '../../common/Main';
 import { addQueryParamsToUrl } from '../../../utils/url';
 import { MODES } from '../../../config/settings';
+import { MAXIMUM_Z_INDEX } from '../../../config/constants';
 
 const styles = (theme) => ({
   message: {
@@ -21,7 +22,7 @@ const styles = (theme) => ({
     color: theme.status.danger.color,
   },
   fab: {
-    zIndex: 10000,
+    zIndex: MAXIMUM_Z_INDEX,
     margin: theme.spacing(),
     position: 'fixed',
     bottom: theme.spacing(2),

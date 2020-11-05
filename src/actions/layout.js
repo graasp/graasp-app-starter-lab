@@ -1,4 +1,8 @@
-import { TOGGLE_SETTINGS, TOGGLE_LOADER, TOGGLE_SIDE_MENU } from '../types';
+import {
+  TOGGLE_SETTINGS,
+  TOGGLE_LOADING_SCREEN,
+  TOGGLE_SIDE_MENU,
+} from '../types';
 
 const toggleSettings = (showSettings) => (dispatch) =>
   dispatch({
@@ -6,10 +10,10 @@ const toggleSettings = (showSettings) => (dispatch) =>
     payload: showSettings,
   });
 
-const toggleLoader = (showLoader) => (dispatch) =>
+const toggleLoadingScreen = (showLoadingScreen) => (dispatch) =>
   dispatch({
-    type: TOGGLE_LOADER,
-    payload: showLoader,
+    type: TOGGLE_LOADING_SCREEN,
+    payload: showLoadingScreen,
   });
 
 const toggleSideMenu = (showSideMenu) => (dispatch) =>
@@ -18,4 +22,4 @@ const toggleSideMenu = (showSideMenu) => (dispatch) =>
     payload: showSideMenu,
   });
 
-export { toggleSettings, toggleLoader, toggleSideMenu };
+export { toggleSettings, toggleLoadingScreen, toggleSideMenu };
