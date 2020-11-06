@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { addQueryParamsToUrl } from '../../../utils/url';
+import Main from '../../common/Main';
+import { MODES } from '../../../config/settings';
 
 const styles = (theme) => ({
   main: {
@@ -12,30 +13,29 @@ const styles = (theme) => ({
     margin: theme.spacing(),
   },
   message: {
-    padding: theme.spacing(),
+    margin: theme.spacing(2),
+    padding: theme.spacing(1),
+    textAlign: 'center',
     backgroundColor: theme.status.danger.background[500],
     color: theme.status.danger.color,
-    marginBottom: theme.spacing(2),
   },
 });
 
 export const StudentView = ({ t, classes }) => (
-  <Grid container spacing={10}>
-    <Grid item xs={12} className={classes.main}>
-      <Paper className={classes.message}>
-        {t(
-          'This is the student view. Switch to the teacher view by clicking on the URL below.',
-        )}
-        <a href={addQueryParamsToUrl({ mode: 'teacher' })}>
-          <pre>
-            {`${window.location.host}/${addQueryParamsToUrl({
-              mode: 'teacher',
-            })}`}
-          </pre>
-        </a>
-      </Paper>
-    </Grid>
-  </Grid>
+  <Main>
+    <Paper className={classes.message}>
+      {t(
+        'This is the student view. Switch to the teacher view by clicking on the URL below.',
+      )}
+      <a href={addQueryParamsToUrl({ mode: MODES.TEACHER })}>
+        <pre>
+          {`${window.location.host}/${addQueryParamsToUrl({
+            mode: MODES.TEACHER,
+          })}`}
+        </pre>
+      </a>
+    </Paper>
+  </Main>
 );
 
 StudentView.propTypes = {

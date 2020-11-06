@@ -1,13 +1,25 @@
-import { CLOSE_SETTINGS, OPEN_SETTINGS } from '../types';
+import {
+  TOGGLE_SETTINGS,
+  TOGGLE_LOADING_SCREEN,
+  TOGGLE_SIDE_MENU,
+} from '../types';
 
-const openSettings = () => (dispatch) =>
+const toggleSettings = (showSettings) => (dispatch) =>
   dispatch({
-    type: OPEN_SETTINGS,
+    type: TOGGLE_SETTINGS,
+    payload: showSettings,
   });
 
-const closeSettings = () => (dispatch) =>
+const toggleLoadingScreen = (showLoadingScreen) => (dispatch) =>
   dispatch({
-    type: CLOSE_SETTINGS,
+    type: TOGGLE_LOADING_SCREEN,
+    payload: showLoadingScreen,
   });
 
-export { openSettings, closeSettings };
+const toggleSideMenu = (showSideMenu) => (dispatch) =>
+  dispatch({
+    type: TOGGLE_SIDE_MENU,
+    payload: showSideMenu,
+  });
+
+export { toggleSettings, toggleLoadingScreen, toggleSideMenu };

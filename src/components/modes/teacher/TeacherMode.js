@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TeacherView from './TeacherView';
 import { DEFAULT_VIEW, DASHBOARD_VIEW } from '../../../config/views';
-import { getActions, getAppInstanceResources } from '../../../actions';
 import Loader from '../../common/Loader';
+import { getActions, getAppInstanceResources } from '../../../actions';
 
+// eslint-disable-next-line react/prefer-stateless-function
 class TeacherMode extends Component {
   static propTypes = {
     appInstanceId: PropTypes.string,
@@ -13,27 +14,38 @@ class TeacherMode extends Component {
     activity: PropTypes.bool,
     dispatchGetAppInstanceResources: PropTypes.func.isRequired,
     dispatchGetActions: PropTypes.func.isRequired,
+    userId: PropTypes.string,
   };
 
   static defaultProps = {
-    view: 'normal',
+    view: DEFAULT_VIEW,
     appInstanceId: null,
     activity: false,
+    userId: null,
   };
 
   componentDidMount() {
-    const { dispatchGetAppInstanceResources, dispatchGetActions } = this.props;
+    const {
+      userId,
+      dispatchGetAppInstanceResources,
+      dispatchGetActions,
+    } = this.props;
 
-    // get all of the resources and actions
-    dispatchGetAppInstanceResources();
-    dispatchGetActions();
+    // by default get the resources for this user
+    dispatchGetAppInstanceResources({ userId });
+    // by default get all actions for this user
+    dispatchGetActions({ userId: [userId] });
   }
 
   componentDidUpdate({ appInstanceId: prevAppInstanceId }) {
-    const { appInstanceId, dispatchGetAppInstanceResources } = this.props;
+    const {
+      appInstanceId,
+      dispatchGetAppInstanceResources,
+      userId,
+    } = this.props;
     // handle receiving the app instance id
     if (appInstanceId !== prevAppInstanceId) {
-      dispatchGetAppInstanceResources();
+      dispatchGetAppInstanceResources({ userId });
     }
   }
 
@@ -50,10 +62,15 @@ class TeacherMode extends Component {
     }
   }
 }
-const mapStateToProps = ({ context, appInstanceResources }) => ({
-  appInstanceId: context.appInstanceId,
-  activity: Boolean(appInstanceResources.activity.length),
-});
+
+const mapStateToProps = ({ context, appInstanceResources }) => {
+  const { userId, appInstanceId } = context;
+  return {
+    userId,
+    appInstanceId,
+    activity: Boolean(appInstanceResources.activity.length),
+  };
+};
 
 const mapDispatchToProps = {
   dispatchGetAppInstanceResources: getAppInstanceResources,
