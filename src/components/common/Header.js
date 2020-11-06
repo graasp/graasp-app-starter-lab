@@ -44,6 +44,7 @@ const styles = (theme) => ({
   },
   link: {
     color: 'white',
+    marginLeft: theme.spacing(1),
   },
 });
 
